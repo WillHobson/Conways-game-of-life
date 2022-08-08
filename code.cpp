@@ -3,8 +3,8 @@
 //
 #include "iostream"
 #include "picture.cpp"
-#include <ctime>
-#include <cstdio>
+#include "batch.cpp"
+
 
 using namespace std;
 
@@ -18,7 +18,7 @@ int decsion(int res, int current);
 
 int main(){
     int count = 0; //variable to keep count of generations.
-    srand(time(0));
+    //srand(time(0));
     int** a2d = new int*[W*H];//allocated memory
 
 
@@ -31,39 +31,47 @@ int main(){
     for (int i=0; i<H; i++) {
         for (int j = 0; j < W; j++) {
             int ran = rand() % 500;
-            if (ran % 171 == 0){a2d[i][j] = 1;}
-            else {a2d[i][j] = 0;}
-        }
-    }
-    while(count<10) {
+            if (ran % 3 == 0){a2d[i][j] = 1;}
+            else{
+            a2d[i][j] = 0;}}}
+
+
+
+    while(count<50) {
         int** b2d = new int*[W*H];
         for (int i=0; i<W; i++){            //setting up b2d array
             b2d[i] = new int[H];
         }
-        string path = "C:\\Users\\willh\\CLionProjects\\game\\image_" + to_string(count) + ".ppm";
+        for (int i=0; i<H; i++) {
+            for (int j = 0; j < W; j++) {
+                b2d[i][j] = 0;}}
+        string path = "C:\\Users\\willh\\CLionProjects\\game\\images2\\image_" + to_string(count) + ".ppm";
 
         pic(path, H, W, a2d);
 
         for (int i = 0; i < H; i++) {
             for (int j = 0; j < W; j++) {
                 int res = status(i, j, a2d);
-                int des = decsion(res, a2d[i][j]);
-                b2d[i][j] = des;
+                int des = decsion(res, a2d[j][i]);
+                b2d[j][i] = des;
             }
         }
-        //if (a2d == b2d) { count = 5;  pic(path, H, W, a2d);}
-        //else {
-            a2d = b2d;
+        if (a2d == b2d) { count = 40;  pic(path, H, W, a2d);}
+
+
+        for (int i=0; i<H; i++){
+            std::swap(a2d[i], b2d[i]);
+        }
             count++;
-        //}
+
 
         //delete b2d
-        for (int i = 0; i < 250; i++) {
+        for (int i = 0; i < W; i++) {
             delete[] b2d[i];
         }
         delete[] b2d;
     }
-
+convert();
     }
 
 
@@ -73,6 +81,7 @@ void print_array(int** array, int h, int w){
         for (int j = 0; j < w; j++) {
             std::cout << array[i][j] << ", ";
         }}
+    std::cout<<"\n";
 }
 
 int status(int x, int y, int **arr){
@@ -111,7 +120,14 @@ int decsion(int res, int current){
         if (res==2 || res==3){newv = 1;}
         if (res >3){newv = 0;}
     }
+/*
     if (current ==0 && (res == 3)){newv=1;}
+    else {newv = 0;}
+*/
+    else {
+        if (current == 0 && (res == 3)) { newv = 1; }
+        else (newv = 0);
+    }
 
     return newv;
 }
