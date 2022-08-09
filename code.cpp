@@ -31,13 +31,13 @@ int main(){
     for (int i=0; i<H; i++) {
         for (int j = 0; j < W; j++) {
             int ran = rand() % 500;
-            if (ran % 3 == 0){a2d[i][j] = 1;}
+            if (ran % 13 == 0){a2d[i][j] = 1;}
             else{
             a2d[i][j] = 0;}}}
 
 
 
-    while(count<50) {
+    while(count<60) {
         int** b2d = new int*[W*H];
         for (int i=0; i<W; i++){            //setting up b2d array
             b2d[i] = new int[H];
@@ -71,7 +71,7 @@ int main(){
         }
         delete[] b2d;
     }
-convert();
+render();
     }
 
 
@@ -120,10 +120,7 @@ int decsion(int res, int current){
         if (res==2 || res==3){newv = 1;}
         if (res >3){newv = 0;}
     }
-/*
-    if (current ==0 && (res == 3)){newv=1;}
-    else {newv = 0;}
-*/
+
     else {
         if (current == 0 && (res == 3)) { newv = 1; }
         else (newv = 0);
